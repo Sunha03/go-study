@@ -54,7 +54,7 @@
   #terminal(/test)
   > go run main.go
   
-  #실행결과
+  #Outputs
   Hello World!
   Hello
   ```
@@ -74,8 +74,11 @@
   	const name string = "SH" //변수 앞에 const 선언
   	fmt.Println(name)
   }
+  
+#Outputs
+  SH
   ```
-
+  
   
 
 ## Variables
@@ -104,6 +107,10 @@
   	newVar = "newStr2"
   	fmt.Println(newVar)
   }
+  
+  # Outputs
+  str2
+  newStr2
   ```
 
 
@@ -120,6 +127,11 @@
   func multiply(a int, b int) int { //(a int, b int) = (a, b int)
   	return a * b
   }
+  
+  # main.go
+  fmt.Println(multiply(3, 4))
+  # Outputs
+  12
   ```
 
 
@@ -136,6 +148,12 @@
   func lenAndUpper(name string) (int, string) {
   	return len(name), strings.ToUpper(name)
   }
+  
+  # main.go
+  totalLength, upperName := lenAndUpper("test")
+  fmt.Println(totalLength, upperName)
+  # Outputs
+  4 TEST
   ```
 
 
@@ -155,6 +173,11 @@
   func numbers(words ...string) {
   	fmt.Println(words)
   }
+  
+  # main.go
+  numbers("one", "two", "three")
+  # Outputs
+  [one two three]
   ```
 
 
@@ -174,6 +197,12 @@
   	uppercase = strings.ToUpper(name)
   	return
   }
+  
+  # main.go
+  totalLength2, upperName2 := lenAndUpper2("test2")
+  fmt.Println(totalLength2, upperName2)
+  # Outputs
+  5 TEST2
   ```
 
   
@@ -195,6 +224,185 @@
   	uppercase = strings.ToUpper(name)
   	return
   }
+  
+  # main.go
+  totalLength3, upperName3 := lenAndUpper3("test3")
+  fmt.Println(totalLength3, upperName3)
+  # Outputs
+  The End
+  5 TEST3
+  ```
+
+
+
+## for, range, ...args
+
+- for - go에서 유일한 loop문
+
+- range - array에 loop를 적용할 수 있도록 함
+
+  -> 실행 시, index와 value를 같이 return 함
+
+  ```go
+  //for, range, ...args
+  func superAdd(numbers ...int) int {
+  	//range : array에 loop를 적용
+  	for index, number := range numbers {
+  		//(output) 0 10 / 1 20 / 2 30 / 3 40 / 4 50
+  		fmt.Println(index, number)
+  	}
+  	return 1
+  }
+  
+  # main.go
+  superAdd(10, 20, 30, 40, 50)
+  # Outputs
+  0 10
+  1 20
+  2 30
+  3 40
+  4 50
+  ```
+
+  ```go
+  //for
+  func superAdd2(numbers ...int) int {
+  	for i := 0; i < len(numbers); i++ {
+  		fmt.Println(numbers[i])
+  	}
+  	return 1
+  }
+  
+  # main.go
+  superAdd2(10, 20, 30, 40, 50)
+  # Outputs
+  10
+  20
+  30
+  40
+  50
+  ```
+
+  ```go
+  //range(_ : index 사용하지 않을 때)
+  // -> for문 안에서만 작동함
+  func superAdd3(numbers ...int) int {
+  	total := 0
+  
+  	for _, number := range numbers {
+  		total += number
+  	}
+  	return total
+  }
+  
+  # main.go
+  result := superAdd3(10, 20, 30, 40, 50)
+  fmt.Println(result)
+  # Outputs
+  150
+  ```
+
+  
+
+## if
+
+- if문
+
+  ```go
+  //if + variable expression
+  func canIDrinkKoreanAge(age int) bool {
+  	if koreanAge := age+2; koreanAge < 18 {
+  		return false
+  	}
+  	return true
+  }
+  
+  # main.go
+  fmt.Println(canIDrink(16))
+  # Outputs
+  false
+  ```
+  - variable expression : if문을 사용하는 순간 variable 생성 가능
+
+    -> if문 안에서 variable을 작성하면 if-else 구문 안에서만 사용되는 변수
+
+  ```go
+  //if + variable expression
+  func canIDrinkKoreanAge(age int) bool {
+  	if koreanAge := age+2; koreanAge < 18 {
+  		return false
+  	}
+  	return true
+  }
+  
+  # main.go
+  fmt.Println(canIDrinkKoreanAge(16))
+  # Outputs
+  true
+  ```
+
+  
+
+## Switch
+
+- switch문
+
+  ```go
+  //switch
+  func canIDrink2(age int) bool {
+  	switch age {
+  	case 10:
+  		return false
+  	case 18:
+  		return true
+  	}
+  	return false
+  }
+  
+  # main.go
+  fmt.Println(canIDrink2(16))
+  # Outputs
+  false
+  ```
+
+  ```go
+  //switch
+  func canIDrink3(age int) bool {
+  	switch {
+  	case age < 18:
+  		return false
+  	case age == 18:
+  		return true
+  	case age > 50:
+  		return false
+  	}
+  	return true
+  }
+  
+  # main.go
+  fmt.Println(canIDrink3(20))
+  # Outputs
+  true
+  ```
+
+  - variable expression
+
+  ```go
+  //switch(+variable expression)
+  func canIDrinkKoreanAge2(age int) bool {
+  	switch koreanAge := age + 2; koreanAge {
+  	case 10:
+  		return false
+  	case 18:
+  		return true
+  	}
+  	return false
+  }
+  
+  # main.go
+  fmt.Println(canIDrinkKoreanAge2(17))
+  # Outputs
+  false
   ```
 
   
