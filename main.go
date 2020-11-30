@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	"test/say"
 )
 
@@ -32,6 +33,32 @@ func multiply(a int, b int) int { //(a int, b int) = (a, b int)
 	return a * b
 }
 
+//Multiple return -> (type, type, ...)
+func lenAndUpper(name string) (int, string) {
+	return len(name), strings.ToUpper(name)
+}
+
+//Multiple Auguments -> (var ...type)
+func numbers(words ...string) {
+	fmt.Println(words)
+}
+
+//Naked Return
+func lenAndUpper2(name string) (length int, uppercase string) {
+	length = len(name) //변수 값 업데이트
+	uppercase = strings.ToUpper(name)
+	return
+}
+
+//defer
+func lenAndUpper3(name string) (length int, uppercase string) {
+	defer fmt.Println("The End") //func 종료 후 실행됨
+
+	length = len(name)
+	uppercase = strings.ToUpper(name)
+	return
+}
+
 func main() {
 	fmt.Println("Hello World!")
 
@@ -47,4 +74,19 @@ func main() {
 
 	//Type
 	fmt.Println(multiply(3, 4))
+
+	//Multiple return
+	totalLength, upperName := lenAndUpper("test")
+	fmt.Println(totalLength, upperName)
+
+	//Multiple Auguments
+	numbers("one", "two", "three")
+
+	//Naked Return
+	totalLength2, upperName2 := lenAndUpper2("test2")
+	fmt.Println(totalLength2, upperName2)
+
+	//defer
+	totalLength3, upperName3 := lenAndUpper3("test3")
+	fmt.Println(totalLength3, upperName3)
 }
