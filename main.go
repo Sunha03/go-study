@@ -59,6 +59,86 @@ func lenAndUpper3(name string) (length int, uppercase string) {
 	return
 }
 
+//for, range, ...args
+func superAdd(numbers ...int) int {
+	//range : array에 loop를 적용
+	for index, number := range numbers {
+		//(output) 0 10 / 1 20 / 2 30 / 3 40 / 4 50
+		fmt.Println(index, number)
+	}
+	return 1
+}
+
+//for
+func superAdd2(numbers ...int) int {
+	for i := 0; i < len(numbers); i++ {
+		fmt.Println(numbers[i])
+	}
+	return 1
+}
+
+//range(_ : index 사용하지 않을 때)
+// -> for문 안에서만 작동함
+func superAdd3(numbers ...int) int {
+	total := 0
+
+	for _, number := range numbers {
+		total += number
+	}
+	return total
+}
+
+//if
+func canIDrink(age int) bool {
+	if age < 18 {
+		return false
+	}
+	return true
+}
+
+//if(+variable expression)
+func canIDrinkKoreanAge(age int) bool {
+	if koreanAge := age + 2; koreanAge < 18 {
+		return false
+	}
+	return true
+}
+
+//switch
+func canIDrink2(age int) bool {
+	switch age {
+	case 10:
+		return false
+	case 18:
+		return true
+	}
+	return false
+}
+
+//switch
+func canIDrink3(age int) bool {
+	switch {
+	case age < 18:
+		return false
+	case age == 18:
+		return true
+	case age > 50:
+		return false
+	}
+	return true
+}
+
+//switch(+variable expression)
+func canIDrinkKoreanAge2(age int) bool {
+	switch koreanAge := age + 2; koreanAge {
+	case 10:
+		return false
+	case 18:
+		return true
+	}
+	return false
+}
+
 func main() {
 	fmt.Println("Hello World!")
 
@@ -89,4 +169,19 @@ func main() {
 	//defer
 	totalLength3, upperName3 := lenAndUpper3("test3")
 	fmt.Println(totalLength3, upperName3)
+
+	//for, range, ...args
+	superAdd(10, 20, 30, 40, 50)
+	superAdd2(10, 20, 30, 40, 50)
+	result := superAdd3(10, 20, 30, 40, 50)
+	fmt.Println(result)
+
+	//if
+	fmt.Println(canIDrink(16))
+	fmt.Println(canIDrinkKoreanAge(16))
+
+	//switch
+	fmt.Println(canIDrink2(16))
+	fmt.Println(canIDrink3(20))
+	fmt.Println(canIDrinkKoreanAge2(17))
 }
