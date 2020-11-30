@@ -31,6 +31,8 @@
 
   -> main.go에서 SayHello() 호출
 
+  * <u>main.go</u>
+
   ```go
   package main
   
@@ -89,7 +91,7 @@
   -- 축약형 코드는 func 안에서만 사용 가능함
 
   ```go
-  /Variables : 변경가능
+  //Variables : 변경가능
   func Variables() {
   	var varName string = "str1"
   	varName = "str2"
@@ -120,12 +122,87 @@
   }
   ```
 
+
+
+
+## Multiple return
+
+- func에서 return 여러개 반환
+
+  -- return할 type을 () 안에 명시
+
+  ```go
+  //Multiple return -> (type, type, ...)
+  func lenAndUpper(name string) (int, string) {
+  	return len(name), strings.ToUpper(name)
+  }
+  ```
+
+
+
+## Multiple Auguments
+
+- func에서 arguments 여러개 받기
+
+  -- argument 타입 앞에 "..." 붙이기
+
+  -- 원하는 개수만큼의 arguments를 주고 받을 수 있음
+
+  -- "[arg1 arg2 arg3 ...]"와 같이 array 형태로 출력됨
+
+  ```go
+  //Multiple Auguments -> (var ...type)
+  func numbers(words ...string) {
+  	fmt.Println(words)
+  }
+  ```
+
+
+
+## Naked Return
+
+- naked return : return할 변수를 명시하지 않는 것
+
+  -- func 함수 생성 시 return 부분에 변수와 타입을 함께 명시
+
+  ​	-> 자동으로 이때의 변수가 return됨
+
+  ```go
+  //Naked Return
+  func lenAndUpper2(name string) (length int, uppercase string) {
+  	length = len(name) //변수 값 업데이트
+  	uppercase = strings.ToUpper(name)
+  	return
+  }
+  ```
+
+  
+
+## Defer
+
+- func 종료 후 실행되는 코드/기능
+
+  -- defer를 사용하면 func이 끝난 뒤 필요한 것을 실행시킬 수 있음
+
+  ​	ex) 오픈했던 이미지 닫기, 생성한 파일 삭제, API 요청 보내기, ...
+
+  ```go
+  //defer
+  func lenAndUpper3(name string) (length int, uppercase string) {
+  	defer fmt.Println("The End") //func 종료 후 실행됨
+  
+  	length = len(name)
+  	uppercase = strings.ToUpper(name)
+  	return
+  }
+  ```
+
   
 
 
 
 
 
-
-
 [참조] [https://soyoung-new-challenge.tistory.com/85?category=893866]
+
+[참조] [https://soyoung-new-challenge.tistory.com/86?category=893866]
