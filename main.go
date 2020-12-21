@@ -6,6 +6,13 @@ import (
 	"test/say"
 )
 
+//Struct
+type person struct {
+	name    string
+	age     int
+	favFood []string
+}
+
 //Constants : 변경불가
 // - 한번 선언한 변수는 재할당 불가
 func Constants() {
@@ -184,4 +191,62 @@ func main() {
 	fmt.Println(canIDrink2(16))
 	fmt.Println(canIDrink3(20))
 	fmt.Println(canIDrinkKoreanAge2(17))
+
+	//Pointer1
+	a := 2
+	b := a
+	fmt.Println(a, b)
+
+	//Pointer2
+	a2 := 2
+	b2 := a2
+	a2 = 10
+	fmt.Println(a2, b2)
+
+	//Pointer3
+	a3 := 2
+	b3 := &a3
+	a3 = 10
+	fmt.Println(a3, b3)
+	fmt.Println(a3, *b3)
+
+	//Pointer4
+	a4 := 2
+	b4 := &a4
+	*b4 = 20
+	fmt.Println(a4, b4)
+
+	//Array
+	names := [5]string{"one", "two", "three", "four"}
+	names[3] = "change"
+	fmt.Println(names)
+
+	//Slice
+	names2 := []string{"1", "2", "3", "4", "5"}
+	names2[3] = "change"
+	newNames2 := append(names2, "adding")
+	fmt.Println(names2)
+	fmt.Println(newNames2)
+
+	//Map
+	test := map[string]string{"name": "go", "age": "20"}
+	fmt.Println(test)
+	for key, value := range test {
+		fmt.Println(key, value)
+	}
+
+	//Struct
+	favFood := []string{"pasta", "pizza"}
+	//struct 생성1
+	golang := person{}
+	golang.name = "go"
+	golang.age = 10
+	golang.favFood = favFood
+	//struct 생성2
+	java := person{"java", 15, favFood}
+	//struct 생성3
+	python := person{name: "python", age: 15, favFood: favFood}
+	fmt.Println(golang)
+	fmt.Println(java)
+	fmt.Println(python)
 }
