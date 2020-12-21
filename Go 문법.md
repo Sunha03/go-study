@@ -75,11 +75,11 @@
   	fmt.Println(name)
   }
   
-#Outputs
+  # Outputs
   SH
   ```
-  
-  
+
+
 
 ## Variables
 
@@ -94,8 +94,8 @@
   -- 축약형 코드는 func 안에서만 사용 가능함
 
   ```go
-  //Variables : 변경가능
-  func Variables() {
+//Variables : 변경가능
+func Variables() {
   	var varName string = "str1"
   	varName = "str2"
   	fmt.Println(varName)
@@ -108,9 +108,9 @@
   	fmt.Println(newVar)
   }
   
-  # Outputs
-  str2
-  newStr2
+# Outputs
+str2
+newStr2
   ```
 
 
@@ -407,7 +407,149 @@
 
   
 
+## Pointer
 
+- &[ 출력 변수 ] -> 메모리 주소로 연결됨
+
+- *[ 메모리주소가 담긴 변수 ] -> 해당 메모리 주소의 실제 값
+
+- 포인터는 메모리 주소가 동일한 경우 바라보는 값을 변경할 수 있음
+
+  ```go
+  //Pointer1
+  a := 2
+  b := a
+  //Pointer2
+  a2 := 2
+  b2 := a2
+  a2 = 10
+  //Pointer3
+  a3 := 2
+  b3 := &a3
+  a3 = 10
+  //Pointer4
+  a4 := 2
+  b4 := &a4
+  *b4 = 20
+  	
+  # main.go
+  fmt.Println(a, b)
+  fmt.Println(a2, b2)
+  fmt.Println(a3, b3)
+  fmt.Println(a3, *b3)
+  fmt.Println(a4, b4)
+  # Outputs
+  2 2
+  10 2
+  10 0xc0000b4028
+  10 10
+  20 0xc0000b4030
+  ```
+
+  
+
+## Array
+
+- 선언 : [ Array 변수 ] := [ 길이 ] 타입 { 값 }
+
+- Go에서 Array는 꼭 길이를 명시해줘야 함
+
+- array 값 변경 -> index를 지정해서 새로운 값 할당(기존의 인덱스 안에 있는 값만 변경 가능. 새로운 index를 추가로 생성 불가)
+
+  ```go
+  //Arrays
+  names := [5]string{"one", "two", "three", "four"}
+  names[3] = "change"
+  
+  # main.go
+  fmt.Println(names)
+  # Outputs
+  [one two three change ]
+  ```
+
+
+
+## Slice
+
+- Array와 동일하지만 길이가 정해져있지 않음
+
+- slice 값 추가 가능 -> [새로운 변수] = append([기존의 slice 변수], [추가할 값])
+
+  ([새로운 변수]에는 추가할 값이 추가된 slice를 반환함. [기존의 slice 변수]는 변경되지 않음)
+
+  ```go
+  //Slice
+  names2 := []string{"1", "2", "3", "4", "5"}
+  names2[3] = "change"
+  newNames2 := append(names2, "adding")
+  
+  # main.go
+  fmt.Println(names2)
+  fmt.Println(newNames2)
+  # Outputs
+  [1 2 3 change 5]
+  [1 2 3 change 5 adding]
+  ```
+
+  
+
+## Map
+
+- key : value 형태의 값
+
+- 선언 : map [ 키타입 ] [ 값타입 ] { 실제_키&값 }
+
+- iterate 사용 가능
+
+  ```go
+  //Map
+  test := map[string]string{"name": "go", "age": "20"}
+  
+  # main.go
+  fmt.Println(test)
+  for key, value := range test {
+  	fmt.Println(key, value)
+  }
+  # Outputs
+  map[age:20 name:go]
+  name go
+  age 20
+  ```
+
+
+
+## Struct
+
+- struct 생성 후 정의 방법
+
+  1. struct 생성 -> 생성한 struct에 값 넣기
+  2. 위에서 정의한 struct 값 순서대로 넣기
+  3. key와 value를 지정해서 값 넣기
+
+  ```go
+  //Struct
+  favFood := []string{"pasta", "pizza"}
+  //struct 생성1
+  golang := person{}
+  golang.name = "go"
+  golang.age = 10
+  golang.favFood = favFood
+  //struct 생성2
+  java := person{"java", 15, favFood}
+  //struct 생성3
+  python := person{name: "python", age: 15, favFood: favFood}
+  
+  # main.go
+  fmt.Println(golang)
+  fmt.Println(java)
+  fmt.Println(python)
+  # Outputs
+  {go 10 [pasta pizza]}
+  {java 15 [pasta pizza]}
+  {python 15 [pasta pizza]}
+  ```
+
+  
 
 
 
