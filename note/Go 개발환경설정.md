@@ -8,18 +8,18 @@
 
    -> MacOS로 다운 & 설치
 
-   ```go
+   ```bash
    # go version
-   > go version
-   => go version go1.15.5 darwin/amd64
+   $ go version
+   >> go version go1.15.5 darwin/amd64
    ```
 
    - GO 환경설정
 
-   ```go
+   ```bash
    # go 환경설정 확인
-   > go env
-   => --
+   $ go env
+   >> --
    GO111MODULE=""
    GOARCH="amd64"
    GOBIN=""
@@ -59,37 +59,44 @@
 
    - GOROOT 설정
 
-   ```go
+   ```bash
    # GOROOT 확인
-   > go env GOROOT
-   => /usr/local/go
+   $ go env GOROOT
+   >> /usr/local/go
    ```
 
    - GOPATH 설정
 
-   ```go
+   ```bash
    # GOPATH 확인
-   > go env GOPATH
-   => /Users/sunhapark/go
+   $ go env GOPATH
+   >> /Users/sunhapark/go
    ```
 
    - GOPATH 수정방법
 
      1) .zshrc or bash_profile에 환경변수 직접 선언
 
+     ```bash
+   # terminal
+     $ vi $HOME/.bash_profile
+     export GOPATH=$HOME/GoStudy
+     $ source ~/.bash_profile
+     ```
+     
      2) vscode 내 언어 설정(setting.json)에 gopath 지정
-
+     
      
 
 2. homebrew로 설치
 
-   ```go
+   ```bash
    # GO install
-   > brew install go
+   $ brew install go
    
    # GO version
-   > go version
-   => go version go1.15.5 darwin/amd64
+   $ go version
+   >> go version go1.15.5 darwin/amd64
    ```
 
 
@@ -98,9 +105,9 @@
 
 1. vscode 설치
 
-   ```go
+   ```bash
    # vscode 설치
-   > brew cask install visual-studio-code
+   $ brew cask install visual-studio-code
    ```
 
 2. Go extension 설치
@@ -130,16 +137,16 @@
 
 2. go 컴파일 및 실행 (.exe 생성 안함)
 
-   ```go
+   ```bash
    # terminal
-   > go run test.go
+   $ go run test.go
    ```
 
 3. go build (.exe 생성)
 
-   ```go
+   ```bash
    # terminal
-   > go build test.go
+   $ go build test.go
    ```
 
  ** 실행 후 test.go 삭제

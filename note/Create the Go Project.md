@@ -4,38 +4,38 @@
 
   1. bin, src, pkg 폴더 3개 추가
 
-     ```
+     ```bash
      # terminal
-     > mkdir bin
-     > mkdir src
-     > mkdir pkg
+     $ mkdir bin
+     $ mkdir src
+     $ mkdir pkg
      ```
 
   2. /src에 프로젝트 폴더 생성
 
      -> /src > mkdir [프로젝트명]
 
-     ```
+     ```bash
      # terminal
-     > mkdir test
+     $ mkdir test
      ```
 
   3. 프로젝트 폴더 안에 main.go 파일 생성
 
-     -> /src/[프로젝트폴더] > touch main.go 
+     -> /src/[프로젝트폴더] $ touch main.go 
 
-     ```
+     ```bash
      # terminal
-     > touch main.go
+     $ touch main.go
      ```
 
   4. 프로젝트 폴더 안에서 vscode 실행
 
-     (터미널 > 프로젝트 폴더 위치 > "code ." 실행)
+     (터미널 > 프로젝트 폴더 위치 $ "code ." 실행)
 
-     ```
+     ```bash
      # terminal
-     > code .
+     $ code .
      ```
 
   5. vscode 오른쪽 하단에 팝업 install
@@ -49,7 +49,7 @@
   6. main.go 파일에 코드 입력
 
      ```go
-     # main.go
+     //main.go
      package main
      
      import "fmt"
@@ -61,9 +61,9 @@
 
   7. vscode Terminal에서 main.go 실행
 
-     ```go
+     ```bash
      # main.go 실행
-     > go run main.go
+     $ go run main.go
      ```
 
      ![image-20201123012345480](/Users/sunhapark/Library/Application Support/typora-user-images/image-20201123012345480.png)
