@@ -1,4 +1,4 @@
-# Go 문법
+# Test Project - Go 문법
 
 ## Export / Private Function 사용
 

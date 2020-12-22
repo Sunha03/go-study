@@ -1,25 +1,32 @@
-# Go Test Project
+# Create the Go Project
 
-* GOPATH에 폴더 추가
++ GOPATH에 폴더 추가
 
   1. bin, src, pkg 폴더 3개 추가
 
      ```
-     mkdir bin
-     mkdir src
-     mkdir pkg
+     # terminal
+     > mkdir bin
+     > mkdir src
+     > mkdir pkg
      ```
 
   2. /src에 프로젝트 폴더 생성
 
+     -> /src > mkdir [프로젝트명]
+
      ```
-     mkdir test
+     # terminal
+     > mkdir test
      ```
 
   3. 프로젝트 폴더 안에 main.go 파일 생성
 
+     -> /src/[프로젝트폴더] > touch main.go 
+
      ```
-     touch main.go
+     # terminal
+     > touch main.go
      ```
 
   4. 프로젝트 폴더 안에서 vscode 실행
@@ -27,7 +34,8 @@
      (터미널 > 프로젝트 폴더 위치 > "code ." 실행)
 
      ```
-     code .
+     # terminal
+     > code .
      ```
 
   5. vscode 오른쪽 하단에 팝업 install
@@ -40,8 +48,8 @@
 
   6. main.go 파일에 코드 입력
 
-     ```
-     #main.go
+     ```go
+     # main.go
      package main
      
      import "fmt"
@@ -53,11 +61,9 @@
 
   7. vscode Terminal에서 main.go 실행
 
-     ```
-     #main.go 실행
-     go run main.go
+     ```go
+     # main.go 실행
+     > go run main.go
      ```
 
      ![image-20201123012345480](/Users/sunhapark/Library/Application Support/typora-user-images/image-20201123012345480.png)
-
-     
