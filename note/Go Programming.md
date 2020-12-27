@@ -149,3 +149,69 @@
   - type switch
 
     -> Go는 변수의 Type에 따라 case 분기가 가능함
+
+
+
+## 9. 반복문
+
+### 1) for문
+
+* for문 : "for 초기값; 조건식; 증감 { ... }" 형식. 초기값, 조건식, 증감식 등은 경우에 따라 생략 가능.
+
+* 초기값; 조건식; 증감을 둘러싸는 괄호를 쓰면 에러남. 항상 생략해야 함.
+
+  ```go
+  sum := 0	//for statements
+  for i := 1; i <= 100; i++ {
+  	sum += i
+  }
+  ```
+
+* 조건식만
+
+  ```go
+  n := 1
+  for n < 100 {
+  	n *= 2
+  }
+  ```
+
+* 무한루프
+
+  ```go
+  for {
+  	println("Infinite loop")        
+  }
+  ```
+
+* for range문  : 컬렉션으로부터 한 요소(element)씩 가져와서 차례로 for 블럭의 문장들을 실행함. foreach와 비슷함.
+
+* "for 인텍스,요소값 := range 컬렉션" 형식
+
+  -> range 키워드 다음의 컬렉션으로부터 하나씩 요소를 리턴해서 그 요소의 위치 인덱스와 값을 for 키워드 다음의 2개의 변수에 각각 할당함
+
+### 2) Break, continue, goto문
+
+* break문 : for문 내에서 즉시 빠져나옴. switch, select문에서 사용 가능
+
+* break 레이블 : 지정된 레이블로 이동. 현재의 루프를 빠져나와 지정된 레이블로 이동 + break문의 직속 for문 전체의 다음 문장을 실행
+
+  -> for문 바로 위에 작성
+
+  ```go
+  i := 0
+  L1:
+  	for {
+  		if i == 0 {
+  			break L1
+  		}
+  	}
+  fmt.Println("OK")
+  //(Outputs) OK
+  ```
+
+  
+
+* continue문 : for문 중간에서 나머지 문장들을 실행하지 않고 for문 시작부분으로 바로 이동
+
+* goto문 : 기타 임의의 문장으로 이동

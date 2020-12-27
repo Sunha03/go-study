@@ -193,6 +193,63 @@ func conditionalStatements() {
 	//(Outputs) string : str
 }
 
+func loopStatements() {
+	sum := 0 //for statements
+	for i := 1; i <= 100; i++ {
+		sum += i
+	}
+	fmt.Println(sum)
+	//(Outputs) 5050
+
+	n := 1
+	for n < 100 {
+		n *= 2
+	}
+	fmt.Println(n)
+	//(Outputs) 128
+
+	/*for { //Infinite loop
+		fmt.Println("Infinite loop")
+	}*/
+
+	names := []string{"James", "John", "Amy"}
+	for index, name := range names {
+		fmt.Println(index, name)
+	}
+	//(Outputs) 0 James
+	// 1 John
+	// 2 Amy
+
+	var a = 1
+	for a < 15 {
+		if a == 5 {
+			a += a
+			continue
+		}
+		a++
+		if a > 10 {
+			break
+		}
+	}
+	if a == 11 {
+		goto END
+	}
+	fmt.Println(a)
+END:
+	fmt.Println("The End")
+	//(Outputs) The End
+
+	i := 0
+L1:
+	for {
+		if i == 0 {
+			break L1
+		}
+	}
+	fmt.Println("OK")
+	//(Outputs) OK
+}
+
 func main() {
 	fmt.Println("== variables ==")
 	variables()
@@ -204,4 +261,6 @@ func main() {
 	operators()
 	fmt.Println("== conditional statements ==")
 	conditionalStatements()
+	fmt.Println("== loop statements ==")
+	loopStatements()
 }
