@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func Variables() {
+func variables() {
 	var num int               //int형 변수 선언
 	var floatNum float32 = 11 //float32형 변수 선언&초기화
 	num = 10                  //변수 선언 후 값 할당
@@ -19,7 +19,7 @@ func Variables() {
 	//(Outputs) 10 12 1 2 3 1 Hi
 }
 
-func Consts() {
+func consts() {
 	const num int = 10      //int형 상수 선언&초기화
 	const str string = "Hi" //str형 상수 선언&초기화
 
@@ -42,7 +42,7 @@ func Consts() {
 	//(Outputs) 10 Hi 20 Hello Visa Master Card American Express 0 1 2
 }
 
-func DataTypes() {
+func dataTypes() {
 	rawLiteral := `Hello\nHi` //Raw String Literal
 
 	interLiteral := "Hi\nHello" //Interpreted String Literal
@@ -71,7 +71,7 @@ func DataTypes() {
 	//(Outputs) [3/32]0xc00006ef08 ABC
 }
 
-func Operators() {
+func operators() {
 	a := 5
 	b := 10
 	var c int
@@ -106,9 +106,102 @@ func Operators() {
 	//(Outputs) 10
 }
 
+func conditionalStatements() {
+	k := 1
+	if k == 1 { //if statement
+		fmt.Println("One")
+	} else if k == 2 {
+		fmt.Println("two")
+	} else {
+		fmt.Println("Other")
+	}
+	//(Outputs) One
+
+	i := 1
+	max := 10
+	if val := i * 2; val < max {
+		fmt.Println(val)
+	}
+	//var++		//ERROR - out of if statement
+	//(Outputs) 2
+
+	var name string
+	var category = 1
+	switch category { //switch statement
+	case 1:
+		name = "Paper Book"
+	case 2:
+		name = "eBook"
+	case 3, 4:
+		name = "Blog"
+	default:
+		name = "Other"
+	}
+	fmt.Println(name)
+	//(Outputs) Paper Book
+
+	fmt.Print("x is ")
+	switch x := category << 2; x - 1 {
+	case 3:
+		fmt.Println("Three")
+	}
+	//(Outputs) x is Three
+
+	score := 88
+	switch { //no default fall through
+	case score >= 90:
+		fmt.Println("A")
+	case score >= 80:
+		fmt.Println("B")
+	case score >= 70:
+		fmt.Println("C")
+	case score >= 60:
+		fmt.Println("D")
+	default:
+		fmt.Println("No Hope")
+	}
+	//(Outputs) B
+
+	val := 3
+	switch val {
+	case 1:
+		fmt.Println("1 or less")
+		fallthrough
+	case 2:
+		fmt.Println("2 or less")
+		fallthrough
+	case 3:
+		fmt.Println("3 or less")
+		fallthrough
+	default:
+		fmt.Println("dafault")
+	}
+	//(Outputs) 3 or less
+	// default
+
+	n := "str"
+	switch v := interface{}(n).(type) { //type switch
+	case int:
+		fmt.Println("int :", v)
+	case bool:
+		fmt.Println("bool :", v)
+	case string:
+		fmt.Println("string :", v)
+	default:
+		fmt.Println("unknown")
+	}
+	//(Outputs) string : str
+}
+
 func main() {
-	Variables()
-	Consts()
-	DataTypes()
-	Operators()
+	fmt.Println("== variables ==")
+	variables()
+	fmt.Println("== consts ==")
+	consts()
+	fmt.Println("== dataTypes ==")
+	dataTypes()
+	fmt.Println("== operators ==")
+	operators()
+	fmt.Println("== conditional statements ==")
+	conditionalStatements()
 }

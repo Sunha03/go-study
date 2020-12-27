@@ -101,3 +101,51 @@
 * C++과 같이 & or * 를 사용하여 해당 변수의 주소를 얻어내거나 이를 반대로 Dereference할 때 사용함
 * 단, 포인터 산술(포인터에 더하고 빼는 기능)은 제공하지 않음
 
+
+
+## 8. 조건문
+
+### 1) if문
+
+* if문 : ( ) 안의 조건이 맞으면 { } 블럭 안의 내용을 실행함
+
+* 괄호 생략 가능(단, 조건 블럭 시작 브레이스 '{'를 if문과 같은 라인에 두어야 함)
+
+* 조건식을 이용하기 전에 간단한 문장(Optional Statement)을 함께 실행할 수 있음. 이때 정의된 변수는 if문 블럭 안에서만 사용할 수 있음
+
+  ```go
+  i := 1
+  max := 10
+  if val := i * 2; val < max {
+  	fmt.Println(val)
+  }
+  //var++		//ERROR - out of if statement
+  ```
+
+### 2) Switch문
+
+* switch문 : switch문 뒤에 하나의 변수(or Expression)을 지정하고, case 문에 해당 변수가 가질 수 있는 값들을 지정하여, 각 경우에 다른 문장 블럭들을 실행할 수 있음. 여러 값을 비교해야 하는 경우 or 다수의 조건식을 체크해야 하는 경우 사용.
+
+* case 값들이 복수개인 경우 콤마 사용
+
+  ex) case 3, 4 :
+
+* Go switch만의 특징
+
+  - switch 뒤에 expression 생략 가능
+
+    -> Go는 switch expression을 true로 생각하고 1번째 case문으로 이동하여 검사함
+
+  - case문에 expression 사용 가능
+
+    -> Go는 case문에 복잡한 expression을 가질 수 있음
+
+  - no default fall through
+
+    -> Go는 break가 없어도 다음 case로 이동하지 않음
+
+    -> 다음 case문을 실행하려면 fallthrough문 명시 필요
+
+  - type switch
+
+    -> Go는 변수의 Type에 따라 case 분기가 가능함
