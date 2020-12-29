@@ -6,21 +6,26 @@ import (
 )
 
 func main() {
+	fmt.Println("********** part1 **********")
 	fmt.Println("== variables ==")
 	part.Variables()
 
-	fmt.Println("== consts ==")
+	fmt.Println("\n== consts ==")
 	part.Consts()
 
-	fmt.Println("== dataTypes ==")
+	fmt.Println("\n== dataTypes ==")
 	part.DataTypes()
 
-	fmt.Println("== operators ==")
+	fmt.Println("\n== operators ==")
 	part.Operators()
 
-	fmt.Println("== conditional statements ==")
+	fmt.Println("\n== conditional statements ==")
 	part.ConditionalStatements()
 
-	fmt.Println("== loop statements ==")
+	fmt.Println("\n== loop statements ==")
 	part.LoopStatements()
+
+	fmt.Println("\n\n********** part2 **********")
+	fmt.Println("== functions ==")
+	part.Functions()
 }
