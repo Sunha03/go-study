@@ -2,6 +2,8 @@ package part
 
 import "fmt"
 
+type calculator func(int, int) int //type문 - 원형 정의
+
 func say_val(msg string) { //pass by value
 	fmt.Println(msg)
 }
@@ -56,4 +58,37 @@ func Functions() {
 	count2, total2 := sum_namedReturn(2, 4, 6, 8)
 	fmt.Println(count2, total2)
 	//(Outputs) 4, 20
+}
+
+func calc(f func(int, int) int, a int, b int) int { //일급함수
+	//func calc(f calculator, a int, b int) int {	//type문 - calculator 원형 사용
+	result := f(a, b)
+	return result
+}
+
+func Functions2() {
+	sum := func(n ...int) int { //익명함수 정의
+		s := 0
+		for _, i := range n {
+			s += i
+		}
+		return s
+	}
+
+	result := sum(1, 2, 3, 4, 5) //익명함수 호출
+	fmt.Println(result)
+	//(Outputs) 15
+
+	add := func(i int, j int) int { //익명함수 할당
+		return i + j
+	}
+
+	r1 := calc(add, 10, 20) //add 함수 전달
+	fmt.Println(r1)
+	//(Outputs) 30
+
+	//파라미터에 익명함수를 정의
+	r2 := calc(func(x int, y int) int { return x - y }, 10, 20)
+	fmt.Println(r2)
+	//(Outputs) -10
 }

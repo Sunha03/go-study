@@ -121,3 +121,85 @@
   ```
 
   
+
+## 5. 익명함수(Anonymous Funciton)
+
+* 익명함수 : 함수명을 갖지 않는 함수. 일반적으로 그 함수 전체를 변수에 할당 or 다른 함수의 파라미터에 직접 정의되어 사용됨
+
+  ```go
+  func main() {
+      sum := func(n ...int) int { //익명함수 정의
+          s := 0
+          for _, i := range n {
+              s += i
+          }
+          return s
+      }
+   
+      result := sum(1, 2, 3, 4, 5) //익명함수 호출
+      println(result)
+  }
+  ```
+
+
+
+## 6. 일급함수
+
+* Go언어에서 함수는 일급함수로서 Go의 기본 타입과 동일하게 취급됨
+
+* 따라서 다른 함수의 파라미터로 전달 or 다른 함수의 리턴 값으로도 사용 가능. 즉, 함수의 입력 파라미터 or 리턴 파라미터로서 함수 자체를 사용 가능
+
+* 함수를 파라미터로 사용하는 2가지 방법
+
+  ​	1) 익명함수를 변수에 할당한 후 이 변수를 전달하는 방법
+
+  ​	2) 직접 다른 함수 호출 파라미터에 함수를 적는 방법
+
+  ```go
+  func main() {
+      //변수 add 에 익명함수 할당
+      add := func(i int, j int) int {
+          return i + j
+      }
+   
+      // add 함수 전달
+      r1 := calc(add, 10, 20)
+      println(r1)
+   
+      // 직접 첫번째 파라미터에 익명함수를 정의함
+      r2 := calc(func(x int, y int) int { return x - y }, 10, 20)
+      println(r2)
+   
+  }
+   
+  func calc(f func(int, int) int, a int, b int) int {
+      result := f(a, b)
+      return result
+  }
+  ```
+
+
+
+## 7. type문을 사용한 함수 원형 정의
+
+* 구조체(struct), 인터페이스 등 Custom Type(or User Defined Type)을 정의하기 위해 사용됨
+
+* 또한, 함수 원형을 정의하는데 사용됨
+
+* 델리게이트(Delegate) : 함수의 원형을 정의하고 함수를 타 메소드에 전달/리턴 받는 기능
+
+  ```go
+  // 원형 정의
+  type calculator func(int, int) int
+   
+  // calculator 원형 사용
+  func calc(f calculator, a int, b int) int {
+      result := f(a, b)
+      return result
+  }
+  ```
+
+  
+
+
+

@@ -28,4 +28,7 @@ func main() {
 	fmt.Println("\n\n********** part2 **********")
 	fmt.Println("== functions ==")
 	part.Functions()
+
+	fmt.Println("\n== functions2 ==")
+	part.Functions2()
 }
