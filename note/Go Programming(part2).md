@@ -201,5 +201,35 @@
 
   
 
+## 8. 클로저(Closure)
 
+* Closure : 함수 바깥에 있는 변수를 참조하는 함수 값(function value). 이때의 함수는 바깥의 변수를 마치 함수 안으로 끌어들인 듯이 그 변수를 읽거나 쓸 수 있게 됨
+
+* Go언어에서 함수는 Closure로 사용될 수 있음
+
+  ```go
+  func nextValue() func() int {
+      i := 0
+      return func() int {
+          i++
+          return i
+      }
+  }
+   
+  func main() {
+      next := nextValue()
+   
+      println(next())  // 1
+      println(next())  // 2
+      println(next())  // 3
+   
+      anotherNext := nextValue()
+      println(anotherNext()) // 1 다시 시작
+      println(anotherNext()) // 2
+  }
+  ```
+
+  -> nextValue()는 int를 리턴하는 익명함수(func() int)를 리턴하는 함수(Go언어는 함수를 다른 함수로부터 리턴되는 리턴 값으로 사용 가능)
+
+  -> 이 익명함수가 그 함수 바깥에 있는 변수 i 를 참조하고 있음. 익명함수 자체가 로컬 변수로 i 를 갖는 것이 아니기 때문에 외부 변수 i 가 상태를 계속 유지하는 즉, 값을 계속 하나씩 증가시키는 기능을 함
 

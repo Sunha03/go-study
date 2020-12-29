@@ -66,6 +66,14 @@ func calc(f func(int, int) int, a int, b int) int { //일급함수
 	return result
 }
 
+func nextValue() func() int { //클로저(Closure)
+	i := 0
+	return func() int {
+		i++
+		return i
+	}
+}
+
 func Functions2() {
 	sum := func(n ...int) int { //익명함수 정의
 		s := 0
@@ -91,4 +99,12 @@ func Functions2() {
 	r2 := calc(func(x int, y int) int { return x - y }, 10, 20)
 	fmt.Println(r2)
 	//(Outputs) -10
+
+	next := nextValue() //클로저(Closure)
+	fmt.Println(next()) //(Outputs) 1
+	fmt.Println(next()) //(Outputs) 2
+	fmt.Println(next()) //(Outputs) 3
+	anotherNext := nextValue()
+	fmt.Println(anotherNext()) //(Outputs) 1
+	fmt.Println(anotherNext()) //(Outputs) 2
 }
