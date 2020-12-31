@@ -35,4 +35,7 @@ func main() {
 	fmt.Println("\n\n********** part3 **********")
 	fmt.Println("== arrays ==")
 	part.Arrays()
+
+	fmt.Println("\n== slices ==")
+	part.Slices()
 }

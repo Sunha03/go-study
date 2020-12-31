@@ -27,3 +27,62 @@ func Arrays() {
 	fmt.Println(mArr)
 	//(Outputs) [[1 2 3] [4 5 6]]
 }
+
+func Slices() {
+	var s []int        //slice 선언
+	s = []int{1, 2, 3} //리터럴 값 지정
+	s[1] = 10
+	fmt.Println(s)
+	//(Outputs) [1 10 3]
+
+	s2 := make([]int, 5, 10) //make() 사용하여 slice todtjd
+	fmt.Println(len(s2), cap(s2))
+	//(Outputs) 5, 10
+
+	var nilSlice []int //nil slice
+	fmt.Println(len(nilSlice), cap(nilSlice))
+	if nilSlice == nil {
+		fmt.Println("nil slice = nil")
+	}
+	//(Outputs) 0 0
+	// nil slice = nill
+
+	oriSlice := []int{0, 1, 2, 3, 4, 5, 6}
+	subSlice := oriSlice[2:5] //sub slice
+	fmt.Println(subSlice)
+	//(Outputs) [2 3 4]
+
+	sub1 := oriSlice[3:]
+	sub2 := oriSlice[:2]
+	sub3 := oriSlice[:]
+	fmt.Println(sub1, sub2, sub3)
+	//(Outputs) [3 4 5 6] [0 1] [0 1 2 3 4 5 6]
+
+	sa := []int{0, 1} //append() : 항목 추가
+	sa = append(sa, 2)
+	sa = append(sa, 3, 4, 5)
+	fmt.Println(sa)
+	//(Outputs) [0 1 2 3 4 5]
+
+	sliceA := make([]int, 0, 3) //len:0, cap:3
+	for i := 1; i <= 15; i++ {
+		sliceA = append(sliceA, i)
+		fmt.Println(len(sliceA), cap(sliceA))
+	}
+	fmt.Println(sliceA)
+	//(Outputs) 1 3 / 2 3 / 3 3 / 4 6 / 5 6 / 6 6 / 7 12 / 8 12
+	// 9 12 / 10 12 / 11 12 / 12 12 / 13 24 / 14 24 / 15 24
+	//(Outputs) [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15]
+
+	sliceB := []int{1, 2, 3} //다중 슬라이스 병합
+	sliceC := []int{4, 5, 6}
+	sliceX := append(sliceB, sliceC...)
+	fmt.Println(sliceX)
+	//(Outputs) [1 2 3 4 5 6]
+
+	source := []int{0, 1, 2} //copy() : 슬라이스 복사
+	target := make([]int, len(source), cap(source)*2)
+	copy(target, source)
+	fmt.Println(target, len(target), cap(target))
+	//(Outputs)[0 1 2] 3 6
+}
