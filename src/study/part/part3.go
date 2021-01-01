@@ -86,3 +86,43 @@ func Slices() {
 	fmt.Println(target, len(target), cap(target))
 	//(Outputs)[0 1 2] 3 6
 }
+
+func Maps() {
+	var idMap map[int]string      //map 선언
+	idMap = make(map[int]string)  //초기화
+	tickers := map[string]string{ //리터럴로 초기화
+		"GOOG": "Google Inc",
+		"MSFT": "Microsoft",
+		"FB":   "FaceBook",
+		"AMZN": "Amazon",
+	}
+	fmt.Println(idMap, tickers)
+	//(Outputs) map[] map[FB:FaceBook GOOG:Google Inc MSFT:Microsoft]
+
+	var m map[int]string
+	m = make(map[int]string)
+	m[901] = "Apple" //값 할당
+	m[134] = "Grape"
+	m[777] = "Tomato"
+
+	str := m[134]
+	noData := m[999] //값 없으면 -> nil or zero 리턴
+	delete(m, 777)   //값 삭제
+	fmt.Println(str, noData, m[777])
+	//(Outputs) Grape
+
+	val, exists := tickers["MSFT"] //map key 체크
+	if !exists {
+		fmt.Println("No MSFT ticker")
+	}
+	fmt.Println(val, exists)
+	//(Outputs) Microsoft true
+
+	for key, val := range tickers { //map 열거
+		fmt.Println(key, val)
+	}
+	//(Outputs) GOOG Google Inc
+	// MSFT Microsoft
+	// FB FaceBook
+	// AMZN Amazon
+}

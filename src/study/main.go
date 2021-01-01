@@ -38,4 +38,7 @@ func main() {
 
 	fmt.Println("\n== slices ==")
 	part.Slices()
+
+	fmt.Println("\n== maps ==")
+	part.Maps()
 }

@@ -164,6 +164,84 @@
 
   ![image-20201231161511515](/Users/sunhapark/Library/Application Support/typora-user-images/image-20201231161511515.png)
 
+## 3. Map
+
+### 1) Map 선언 & 초기화
+
+* Map : 키(Key)에 대응하는 값(Value)을 신속하게 찾는 해시테이블(Hash table)을 구현한 자료구조
+
+* 선언 : map[ (Key타입) ] (Value타입)
+
+  * Nil Map : 이때 선언된 변수는 nill 값을 갖음. 이때의 Map. 초기화 전에는 어떤 데이터도 쓸 수 없음
+
+  * make() : Nil map 초기화 함수
+
+    -> 해시테이블 자료구조를 메모리에 생성하고 그 메모리를 가리키는 map value를 리턴함
+
+    -> map value : 내부적으로 runtime.hmap 구조체를 가리키는 포인터. (idMap 변수는 이 해시테이블을 가리키는 map을 가리킴)
+
+  * 리터럴(literal)로 초기화 : map[ (Key타입) ] (Value타입) { (key) : (value) }
+
+  ```go
+  var idMap map[int]string	//선언
+  idMap = make(map[int]string)	//초기화
+  tickers := map[string]string {	//리터럴로 초기화
+    "GOOG": "Google Inc",
+    "MSFT": "Microsoft",
+    "FB": "FaceBook",
+  }
+  ```
+
+### 2) Map 값 할당
+
+* 값 할당 : (map변수) [ (key) ] = (값)
+
+* 값 삭제 : delete( (map변수), (key) )
+
+  ```go
+  var m map[int]string
   
+  m = make(map[int]string)
+  m[901] = "Apple"
+  m[134] = "Grape"
+  m[777] = "Tomato"
+  
+  str := m[134]
+  noData := m[999]
+  
+  delete(m, 777)
+  ```
+
+### 3) Map key 체크
+
+* map 안에 특정 키가 존재하는지 체크 : (map변수) [ (key) ]
+
+  -> 리턴 값 2개 : 키에 상응하는 값, 그 키가 존자해는지 아닌지를 나타내는 bool
+
+  ```go
+  val, exists := tickers["MSFT"]
+  if !exists {
+  	fmt.Println("No MSFT ticker")
+  }
+  ```
+
+### 4) Map 열거
+
+* for문으로 map 열거
+
+  -> Map은 unordered임. 따라서 출력 순서가 무작위.
+
+  ```go
+  myMap := map[string]string {
+  	"A": "Apple",
+  	"B": "Banana",
+  	"C": "Charlie",
+  }
+  
+  for key, val := range myMap {
+  	fmt.Println(key, val)
+  }
+  ```
 
   
+
