@@ -15,6 +15,10 @@ type dick struct {
 	data map[int]string
 }
 
+type Rect struct {
+	width, height int
+}
+
 func Packages() {
 	song := testlib.GetMusic("John Legend")
 	fmt.Println(song)
@@ -43,4 +47,25 @@ func Structs() {
 	dic.data[1] = "A"
 	fmt.Println(p1, p2, p3, dic)
 	//(Outputs) {Bob 20} {Sean 50} &{Lee 0} &{map[1:A]}
+}
+
+func (r Rect) area() int { // Value receiver
+	return r.width * r.height
+}
+
+func (r *Rect) area2() int { // Pointer receiver
+	r.width++
+	return r.width * r.height
+}
+
+func GoMethods() {
+	rect := Rect{10, 20}
+	area := rect.area() //메소드 호출
+	fmt.Println(area)
+	//(Outputs) 200
+
+	rect2 := Rect{10, 20}
+	area2 := rect.area2()
+	fmt.Println(rect2.width, area2)
+	//(Outputs) 11 220
 }

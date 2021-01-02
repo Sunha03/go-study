@@ -48,4 +48,7 @@ func main() {
 
 	fmt.Println("\n== structs ==")
 	part.Structs()
+
+	fmt.Println("\n== go methods ==")
+	part.GoMethods()
 }

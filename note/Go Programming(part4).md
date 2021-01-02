@@ -189,4 +189,51 @@
   }
   ```
 
+
+
+## 3. Go 메소드(Method)
+
+* Go 메소드 - 특별한 형태의 func 함수. 함수 정의에서 func 키워드와 함수명 사이에 "그 함수가 어떤 struct를 위한 메소드인지"를 표시함.
+
+  -> receiver로 불리는 이 부분은 메소드가 속한 struct 타입과 struct 변수명을 지정함
+
+  -> struct 함수명은 함수 내에서 입력 파라미터처럼 사용됨
+
+  ```go
+  type Rect struct {
+  	width, height int
+  }
+  
+  func (r Rect) area() int {
+  	return r.width * r.height
+  }
+  
+  func main() {
+  	rect := Rect{10, 20}
+  	area := rect.area()		//메소드 호출
+  }
+  ```
+
+* Value reveiver vs Pointer receiver
+
+  * Value receiver : struct의 데이터를 복사하여 전달함
+
+    -> 만약 메소드 내에서 그 struct의 필드 값이 변경되더라도 호출자의 데이터는 변경되지 않음
+
+  * Pointer receiver : struct의 포인터만 전달함
+
+    -> 메소드 내의 필드 값이 변경되면 호출자에서도 변경이 반영됨
+
+  ```go
+  func (r *Rect) area2() int {	// Pointer receiver
+  	r.width++
+  	return r.width * r.height
+  }
+  
+  func main() {
+  	rect := Rect{10, 20}	// 11
+  	area := rect.area2()	// 220
+  }
+  ```
+
   
