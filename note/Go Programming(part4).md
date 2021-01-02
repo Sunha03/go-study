@@ -109,3 +109,84 @@
   ```
 
   * GOROOT > GOPATH 순서대로 패키지를 찾음
+
+
+
+## 2. 구조체(Struct)
+
+* 구조체 : 필드들의 집합체 / 컨테이너. Custom Data Type을 표현하는데 사용됨.
+
+* Go에서는 필드 데이터만 갖고, 메소드는 갖지 않음(메소드는 별도로 분리하여 정의함)
+
+* Go 언어는 객체지향 프로그래밍(Object Oriented Programming, OOP)을 고유의 방식으로 지원함
+
+  -> 클래스, 객체, 상속 개념이 없음
+
+### 1) Struct 선언
+
+* 선언 - type문 사용
+
+  ```go
+  type person struct {	// struct 정의
+  	name string
+  	age int
+  }
+  
+  func main() {
+    p := person{}		// person 객체 생성
+  	p.name = "Lee"	// 필드 값 설정
+  	p.age = 10
+  }
+  ```
+
+### 2) Struct 객체 생성
+
+ 1. 빈 객체 먼저 생성 > 나중에 필드 값 할당
+
+    -> '.' 사용 (예시 - 위의 코드)
+
+	2. 빈 객체 생성 시, 초기값 함께 설정
+
+    ```go
+    var p1 person
+    p1 = person{"Bob", 20}
+    p2 := person{name: "Sean", age: 50}
+    ```
+
+	3. new() 사용 - 모든 필드를 Zero value로 초기화하고 객체의 포인터(*객체)를 리턴함
+
+    -> 객체 포인터인 경우에도 필드 엑세스할 때 '.'을 사용하는데, 이때 포인터는 자동으로 Dereference 됨(C의 '->' 문법과는 다름)
+
+    ```go
+    p := new(person)
+    p.name = "Lee"	//p가 포인터여도 '.'사용 가능
+    ```
+
+* Go에서 struct는 기본적으로 mutable 개체로서 필드 값이 변화할 경우, 별도로 새 개체를 만들지 않고 해당 개체 메모리에서 직접 변경됨
+
+  -> 하지만, struct 객체를 다른 함수의 파라미터로 넘기면, Pass by Value에 따라 객체를 복사해서 전달함
+
+  -> 만약 Pass by Reference로 struct를 전달하고자 하면, struct의 포인터를 전달해야 함
+
+### 3) 생성자(constructor) 함수
+
+* 생성자 함수 - struct를 리턴하는 함수로서 그 함수 본문에서 필요한 필드를 초기화 함
+
+  ```go
+  type dick struct {
+  	data map[int]string
+  }
+  
+  func newDict() *dick {	// 생성자 함수 정의
+  	d := dick{}
+  	d.data = map[int]string{}
+  	return &d		// 포인터 전달
+  }
+  
+  func main() {
+  	dic := newDict()	// 생성자 호출
+  	dic.data[1] = "A"
+  }
+  ```
+
+  

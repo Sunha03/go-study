@@ -45,4 +45,7 @@ func main() {
 	fmt.Println("\n\n********** part4 **********")
 	fmt.Println("== packages ==")
 	part.Packages()
+
+	fmt.Println("\n== structs ==")
+	part.Structs()
 }
