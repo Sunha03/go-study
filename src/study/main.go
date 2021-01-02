@@ -41,4 +41,8 @@ func main() {
 
 	fmt.Println("\n== maps ==")
 	part.Maps()
+
+	fmt.Println("\n\n********** part4 **********")
+	fmt.Println("== packages ==")
+	part.Packages()
 }
