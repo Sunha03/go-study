@@ -236,4 +236,97 @@
   }
   ```
 
+
+
+## 4. Go 인터페이스(interface)
+
+* 인터페이스 : 메소드들의 집합체. 타입(type)이 구현해야 하는 메소드 원형(prototype)들을 정의함.
+
+* 하나의 사용자 정의 타입이 interface를 구현하기 위해서는 단순히 그 인터페이스가 갖는 모든 메소드들을 구현하면 됨
+
+  ```go
+  type Shape interface {
+  	area() float64
+  	perimenter() float64
+  }
+  ```
+
+### 1) 인터페이스 구현
+
+* 인터페이스 구현 - 해당 타입이 그 인터페이스 메소드들을 모두 구현하면 됨
+
+  ```go
+  type Rect struct {	// Rect 정의
+  	width, height float64
+  }
+  
+  type Circle struct {	// Circle 정의
+  	radius float64
+  }
+  
+  // Rect 타입에 대한 Shape 인터페이스 구현
+  func  (r Rect) area() float64 { return r.width * r.height }
+  func (r Rect) perimeter() float64 {
+  	return 2 * (r.width + r.height)
+  }
+  
+  // Circle 타입에 대한 Shape 인터페이스 구현
+  func (c Circle) area() float64 {
+  	return math.Pi * c.radius * c.radius
+  }
+  func (c Circle) perimeter() float64 {
+  	return 2 * math.Pi * c.radius
+  }
+  ```
+
+### 2) 인터페이스 사용
+
+* 함수 파라미터가 인터페이스인 경우, 이는 어떤 타입이든 해당 인터페이스를 구현하기만 하면 모두 입력 파라미터로 사용될 수 있다는 것을 의미함
+
+  ```go
+  func showArea(shapes ... Shape) {
+  	for _, s := range shapes {
+  		a := s.area()	// 인터페이스 메소드 호출
+  	}
+  }
+  
+  func main() {
+  	r := Rect{10., 20.}
+  	c := Circle{10}
+  	
+  	showArea(r, c)
+  }
+  ```
+
+### 3) 인터페이스 타입(interface type)
+
+* 인터페이스 타입(= 빈 인터페이스(empty interface)) : 메소드를 전혀 갖지 않는 빈 인터페이스
+
+* 형식 : interface{}
+
+* 모든 Type을 나타내기 위해 빈 인터페이스를 사용함. 즉, 빈 인터페이스는 어떠한 타입도 담을 수 있는 컨테인어임.
+
+* 다른 언어에서는 Dynamic type으로 불림(C# - empty interface, Java - object, C/C++ - void*)
+
+  ```go
+  func Marshal(v interface{}) ([]byte, error);
+  func Println(a ...interface{}) (n int, err error);
+  ```
+
+### 4) Type Assertion
+
+* Type Assertion : 인터페이스 type의 x와 타입 T에 대해 x.(T)로 표현했을 때, 이는 x가 nill이 아니며, x는 T 타입에 속한다는 점을 확인(assert)하는 것으로 이러한 표현을 type assertion이라고 부름
+
+* 만약 x가 nill이거나 x의 타입이 T가 아니라면 -> 런타임 에러 발생
+
+* 만약 x가 T 타입인 경우 -> T 타입의 x를 리턴
+
+  ```go
+  func main() {
+  	var a interface{} = 1
+  	i := a				// a와 i는 dynamic type, 값은 1
+  	j := a.(int)	// j는 int 타입, 값은 1
+  }
+  ```
+
   

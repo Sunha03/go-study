@@ -51,4 +51,7 @@ func main() {
 
 	fmt.Println("\n== go methods ==")
 	part.GoMethods()
+
+	fmt.Println("\n== go interfaces ==")
+	part.GoInterfaces()
 }
