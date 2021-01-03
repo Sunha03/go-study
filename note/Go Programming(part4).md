@@ -329,4 +329,57 @@
   }
   ```
 
+
+
+## 5. 에러처리
+
+* Go는 내장 타입으로 error라는 인터페이스 타입을 갖음
+
+* Go 에러는 error 인터페이스를 통해 주고받게 됨
+
+  -> error 인터페이스는 Error() 메소드를 1개 갖는데, 개발자는 이 인터페이스를 구현할 수 있는 커스텀 에러 타입을 만들 수 있음
+
+  ```go
+  type error interface {
+  	Error() string
+  }
+  ```
+
+* Go 함수가 결과와 에러를 함께 리턴하면, 이 에러가 nil 인지를 체크해서 에러가 없는지를 체크할 수 있음
+
+  ```go
+  import (
+  	"log"
+  	"os"
+  )
   
+  func main() {
+    // 에러가 발생하면 파일을 오픈하고, 에러메세지를 출력함
+  	f, err := os.Open("C:\\temp\\1.txt")
+  	if err !- nill (
+  		log.Fatal(err.Error())
+  	)
+  }
+  ```
+
+  -> os.Open() : func Open(name string) (file *File, err error)과 같은 함수 원형을 갖는 것으로 첫 번째는 File 포인터를 두 번째는 error 인터페이스를 리턴함
+
+* error의 Type을 체크해서 에러 타입별로 별도의 에러를 처리할 수 있음
+
+  ```go
+  _, err := otherFunc()
+  switch err.(type) {
+  default:		// no error
+  	println("ok")
+  case MyError:
+  	log.Print("Log my error")
+  case error:
+  	log.Fatal(err.Error())
+  }
+  ```
+
+  
+
+
+
+[참고] [http://golang.site/go/article/15-Go-%ED%8C%A8%ED%82%A4%EC%A7%80]

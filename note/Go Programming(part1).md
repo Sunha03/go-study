@@ -229,3 +229,7 @@
 * continue문 : for문 중간에서 나머지 문장들을 실행하지 않고 for문 시작부분으로 바로 이동
 
 * goto문 : 기타 임의의 문장으로 이동
+
+
+
+[참고] [http://golang.site/go/article/4-Go-%EB%B3%80%EC%88%98%EC%99%80-%EC%83%81%EC%88%98]
