@@ -38,7 +38,6 @@
   
   func main() {
   	openFile("Invalid.txt")		// 잘못된 파일명 입력
-  	
   	println("Done") // openFile() 안에서 panic이 실행되면 아래 print는 실행 안됨
   }
   
@@ -52,4 +51,37 @@
   }
   ```
 
+
+
+## 3. recover()
+
+* recover() : panic()에 의한 패닉 상태를 다시 정상 상태로 되돌리는 함수
+
+  ```go
+  import (
+  	"fmt"
+  	"os"
+  )
   
+  func main() {
+  	openFile("Invalid.txt")		// 잘못된 파일명 입력
+  	println("Done")		// recover()에 의해 실행됨
+  }
+  
+  func openFile(fn string) {
+    defer func() {	// defer() : panic 호출 시 실행됨
+  		if r := recover(); r != nil {
+  			fmt.Println("OPEN ERROR", r)
+  		}
+    }()
+  	
+  	f, err := os.Open(fn)
+  	if err != nil {
+  		panic(err)
+  	}
+  	
+  	defer f.Close()
+  }
+  ```
+
+  -> recover()가 panic 상태를 제거하고 openFile()의 다음 문장인 println()을 호출함

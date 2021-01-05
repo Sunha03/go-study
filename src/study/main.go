@@ -60,5 +60,8 @@ func main() {
 	part.DeferFunc()
 
 	fmt.Println("\n== panic() ==")
-	part.PanicFunc()
+	//part.PanicFunc()
+
+	fmt.Println("\n== recover() ==")
+	part.RecoverFunc()
 }
