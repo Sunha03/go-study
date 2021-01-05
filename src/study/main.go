@@ -70,4 +70,7 @@ func main() {
 
 	fmt.Println("\n== anonymous goroutine() ==")
 	part.AnonymousGoroutineFunc()
+
+	fmt.Println("\n== go channels ==")
+	part.GoChannels()
 }

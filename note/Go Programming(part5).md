@@ -192,6 +192,236 @@
 
 
 
+## 5. Go 채널
+
+### 1) Go 채널
+
+* Go 채널 : 채널을 통해 데이터를 주고 받을 수 있는 통로
+
+* 채널은 make()를 통해 미리 생성되어야 하며, 채널 연산자 '<-'을 통해 데이터를 보내고 받음
+
+* 흔히 goroutine들 사이에서 데이터를 주고 받는데 사용되는데, 상대편이 준비될 때까지 채널에서 대기함으로써 별도의 lock을 걸지 않고 데이터를 동기화하는데 사용됨
+
+  ```go
+  func main() {
+  	ch := make(chan int)	// 정수형 채널을 생성함
+  	
+  	go func() {
+  		ch <- 123		// 채널에 123을 보냄
+  	}()
+  	
+  	var i int
+  	i = <- ch		// 채널로부터 123을 받음
+  	println(i)
+  }
+  ```
+
+  -> 실행과정 : 정수형 채널 생성 > 한 goroutine에서 그 채널에 123이란 정수 데이터를 보냄 > 이를 다시 메인 루틴에서 채널로부터 123 데이터를 받음
+
+  -> 채널 생성 시, make()에 어떤 타입의 데이터를 채널에서 주고 받을지 미리 지정해 주어야 함
+
+  -> 채널로 데이터 보낼 때 : (채널명) <- (데이터), 채널에서 데이터 받을 때 : <- (채널명)
+
+  -> 위의 예제에서 메인 루틴은 마지막에서 채널로부터 데이터를 받고 있는데, 상대편 goroutine에서 데이터를 전송할 때까지는 계속 대기하게 됨. 따라서 이 예제에서는 time.Sleep() or fmt.Scanf() 같이 goroutine이 끝날 때까지 기다리는 코드는 필요 없음.
+
+* Go 채널은 수신자와 송신자가 서로를 기다리는 속성 때문에, 이를 이용하여 goroutine이 끝날 때까지 기다리는 기능을 구현할 수 있음
+
+  -> 즉, 익명함수를 사용한 한 Go 루틴에서 어떤 작업이 실행되고 있을 때, 메인 루틴은 '<-done'에서 계속 수신하며 대기하고 있게 됨
+
+  -> 익명함수 Go 루틴에서 작업이 끝난 후, done 채널에 true를 보내면 메인 루틴은 이를 받고 프로그램을 끝냄
+
+  ```go
+  import "fmt"
+  
+  func main() {
+  	done := make(chan bool)
+  	go func() {
+  		for i := 0; i< 10; i++ {
+  			fmt.Println(i)
+  		}
+  		done <- true
+  	}()
+  	<-done		// 위의 goroutine이 끝날 때까지 대기함
+  }
+  ```
+
+### 2) Go 채널 버퍼링
+
+* Go 채널 2가지 - Unbuffered Channel, Buffered Channel
+
+  * Unbuffered Channel - 이 채널에서는 하나의 수신자가 데이터를 받을 때까지 송신자가 데이터를 보내는 채널에 묶여 있게 됨
+  * Buffered Channel - 비록 수신자가 받을 준비가 되어 있지 않을지라도 지정된 버퍼만큼 데이터를 보내고 계속 다른 일을 수행할 수 있음
+
+* 버퍼 채널은 make(chan type, N)을 통해 생성되는데, 2번째 파라미터 N에 사용할 버퍼 개수를 넣음
+
+  ex) make(chan int, 10) -> 10개의 정수형을 갖는 버퍼 채널을 만듦
+
+* 버퍼 채널을 이용하지 않는 경우, 아래와 같은 코드는 에러를 발생시킴(fatal error: all goroutines are asleep-deadlock!)
+
+  -> 왜냐하면 메인 루틴에서 채널에 1을 보내면서 상대편 수신자를 기다리고 있는데, 이 채널을 받는 수신자 goroutine이 없기 때문임
+
+  ```go
+  import "fmt"
+  
+  func main() {
+  	c := make(chan int)
+  	c <- 1		// 수신 루틴이 없음 -> deadlock
+  	fmt.Println(<-c)		// 코멘트해도 deadlock (별도의 goroutine이 없기 대문)
+  }
+  ```
+
+* 하지만, 아래와 같이 버퍼 채널을 사용하면, 수신자가 당장 없더라도 최대 버퍼 수까지 데이터를 보낼 수 있음
+
+  ```go
+  import "fmt"
+  
+  func main() {
+  	ch := make(chan int, 1)
+  	
+  	ch <- 101		// 수신자가 없어도 보낼 수 있음
+  	fmt.Println(<-ch)
+  }
+  ```
+
+### 3) 채널 파라미터
+
+* 함수의 파라미터로 채널을 전달할 대, 일반적으로 송수신을 모두 하는 채널을 전달하지만, 특별히 해당 채널로 송신만 할 것인지 or 수신만 할 것인지를 지정할 수도 있음
+
+* 송산 파라미터 : chan<-, 수신 파라미터 : <-chan
+
+  ex) (p chan<-int), (p <-chan int)
+
+* 만약 송신 채널 파라미터에서 수신을 하거나, 수신 채널에서 송신을 하면 에러 발생함
+
+  ```go
+  import "fmt"
+  
+  func main() {
+  	ch := make(chan string, 1)
+  	sendChan(ch)
+  	receiveChan(ch)
+  }
+  
+  func sendChan(ch chan<- string) {
+  	ch <- "Data"		// x := <-ch  -> 에러 발생
+  }
+  
+  func receiveChan(ch <-chan string) {
+  	data := <-ch
+  	fmt.Println(data)
+  }
+  ```
+
+  -> 만약 sendChan() 안에서 x := <-ch를 실행하면 송신전용 채널에서 수신을 시도하므로 에러 발생함
+
+### 4) 채널 닫기
+
+* 채널 오픈 & 데이터 수신 후, close()를 사용하여 채널을 닫을 수 있음
+
+* 채널을 닫으면, 해당 채널로는 더이상 송신을 할 수 없지만, 채널이 닫힌 이후에도 계속 수신은 가능
+
+* 채널 수신에 사용되는 '<-ch'은 1개의 리턴 값을 갖는데, 1번째는 채널 메세지, 2번째는 수신이 제대로 되었는지를 나타냄(만약 채널이 닫히면 해당 값은 false임)
+
+  ```go
+  func main() {
+  	ch := make(chan int, 2)
+  	
+  	ch <- 1		// 채널에 송신
+  	ch <- 2
+  	close(ch)
+  	
+  	println(<-ch)		// 채널 수신
+  	println(<-ch)
+  	
+  	if _, success := <-ch; !success {
+  		println("더이상 데이터 없음")
+  	}
+  }
+  ```
+
+### 5) 채널 range문
+
+* 채널에서 송신자가 송신한 후 채널을 닫을 수 있음. 그리고 수신자는 임의의 개수의 데이터를 채널이 닫힐 때까지 계속 수신할 수 있음
+
+  -> 수신자는 채널이 닫히는 것을 체크하며 계속 루프를 될게 됨
+
+  ```go
+  func main() {
+  	ch := make(chan int, 2)
+  	ch <- 1		// 채널에 송신
+  	ch <- 2
+  	close(ch)
+  	
+  	// 방법1
+  	for {		// 채널이 닫힌 것을 감지할 때까지 계속 수신
+  		if i, success := <-ch; success {
+  			println(i)
+  		} else {
+  			break
+  		}
+  	}
+  	
+  	// 방법2(range문)
+  	for i := range ch {
+  		println(i)
+  	}
+  }
+  ```
+
+### 6) 채널 select문
+
+* Go select문 : 복수 채널들을 기다리면서 준비된 (데이터를 보내온) 채널을 실행하는 기능을 제공함
+
+* select문은 여러 개의 case문에서 각각 다른 채널을 기다리다가 준비가 된 채널 case를 실행함
+
+  -> select문은 case 채널들이 준비되지 않으면 계속 대기하게 되고, 가장 먼저 도착한 채널의 case를 실행함
+
+  -> 만약 복수 채널에 신호가 오면, Go 런타임이 랜덤하게 그 중 1개를 선택함
+
+  -> 하지만, select문에 default문이 있으면, case문 채널이 준비되지 않더라도 계속 대기하지 않고 바로 default문을 실행함
+
+  ```go
+  import "time"
+  
+  func main() {
+  	done1 := make(chan bool)
+  	done2 := make(chan bool)
+  	go run1(done1)
+  	go run2(done2)
+  	
+  EXIT:
+  	for {
+  		select {
+  		case <-done1:
+  			println("run1 완료")
+  		case <-done2:
+  			println("run2 완료")
+  			break EXIT
+  		}
+  	}
+  }
+  
+  func run1(done chan bool) {
+  	time.Sleep(1 * time.Second)
+  	done <- true
+  }
+  	
+  func run2(done chan bool) {
+  	time.Sleep(2 * time.Second)
+  	done <- true
+  }
+  ```
+
+  -> for문 안에 select문을 쓰며 2개의 goroutine이 모두 실행되기를 기다리고 있음
+
+  -> 1번째 run1()을 1초간 실행 + done1 채널로부터 수신하여 해당 case 실행 + 다시 for문을 돎
+
+  -> 다시 for문을 돌며 다시 select문이 실행되는데, 다음 run2()가 2초 후 실행 + done2 채널로부터 수신하여 해당 case 실행
+
+  -> done2 채널 case문에 break EXIT이 있는데, 이 문장으로 인해 for문을 빠져나와 EXIT 레이블로 이동함
+
+* Go의 "break 레이블" 문 - 해당 레이블로 이동한 후 자신이 빠져나온 루프 다음 문장을 실행함(C/C# 등의 언어에서의 goto 문과 다름)
+
 
 
 [참고] [http://golang.site/go/article/20-Go-defer%EC%99%80-panic]
