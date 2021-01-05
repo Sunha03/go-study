@@ -64,4 +64,10 @@ func main() {
 
 	fmt.Println("\n== recover() ==")
 	part.RecoverFunc()
+
+	fmt.Println("\n== goroutines() ==")
+	part.Goroutines()
+
+	fmt.Println("\n== anonymous goroutine() ==")
+	part.AnonymousGoroutineFunc()
 }
