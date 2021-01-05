@@ -54,4 +54,8 @@ func main() {
 
 	fmt.Println("\n== go interfaces ==")
 	part.GoInterfaces()
+
+	fmt.Println("\n\n********** part5 **********")
+	fmt.Println("== defers ==")
+	part.Defers()
 }
