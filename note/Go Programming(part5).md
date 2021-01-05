@@ -25,3 +25,31 @@
 
   -> 파일을 Open한 후 항상 파일을 close 함
 
+
+
+## 2. panic()
+
+* panic() : 현재 함수를 즉시 멈추고 현재 함수에 defer 함수들을 모두 실행한 후 즉시 리턴함
+
+* panic 모드 실행 방식은 다시 상위함수에도 똑같이 적용되고, 계속 콜스택을 타고 올라가며 적용됨 + 마지막에는 프로그램이 에러를 내고 종료하게 됨
+
+  ```go
+  import "os"
+  
+  func main() {
+  	openFile("Invalid.txt")		// 잘못된 파일명 입력
+  	
+  	println("Done") // openFile() 안에서 panic이 실행되면 아래 print는 실행 안됨
+  }
+  
+  func openFile(fn string) {
+    f, err := os.Open(fn)
+    if err != nil {
+      panic(err)
+    }
+    
+    defer f.Close()
+  }
+  ```
+
+  

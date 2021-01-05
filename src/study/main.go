@@ -56,6 +56,9 @@ func main() {
 	part.GoInterfaces()
 
 	fmt.Println("\n\n********** part5 **********")
-	fmt.Println("== defers ==")
-	part.Defers()
+	fmt.Println("== defer() ==")
+	part.DeferFunc()
+
+	fmt.Println("\n== panic() ==")
+	part.PanicFunc()
 }
