@@ -78,6 +78,8 @@
      1) .zshrc or bash_profile에 환경변수 직접 선언
 
      ```bash
+     
+     ```
    # terminal
      $ vi $HOME/.bash_profile
      export GOPATH=$HOME/GoStudy
@@ -87,6 +89,7 @@
      2) vscode 내 언어 설정(setting.json)에 gopath 지정
      
      
+     ```
 
 2. homebrew로 설치
 
