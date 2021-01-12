@@ -78,5 +78,11 @@ func main() {
 
 	fmt.Println("\n\n********** GORM **********")
 	fmt.Println("== connect MySQL() ==")
-	gorm.ConnMySQL()
+	//gorm.ConnMySQL()
+
+	fmt.Println("\n== create DB ==")
+	//gorm.CreateDB()
+
+	fmt.Println("\n== CRUD ==")
+	gorm.CRUD()
 }

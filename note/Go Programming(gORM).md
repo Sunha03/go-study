@@ -126,7 +126,7 @@
   $ MariaDB > SET GLOBAL general_log = 1;
   $ MariaDB > SELECT @@log_output, @@general_log, @@general_log_file;
   
-  $ tail -f /(경로)/Sunha-MacBookPro.log	# 로그 파일 확인
+  $ tail -f /usr/local/var/mysql/Sunha-MacBookPro.log	# 로그 파일 확인
   ```
 
   ![image-20210112192847752](/Users/sunhapark/project/GoStudy/note/images/image-20210112192847752.png)
@@ -191,6 +191,66 @@
   	panic(err.Error())
   }
   ```
+
+### Create
+
+* db.Exec() : Raw SQL 실행
+
+  ```go
+  func  main() {
+  	db, _  := gorm.Open("mysql", "testuser:testpass@tcp(127.0.0.1:3306)/")
+  	defer db.Close() // 스콥(scope)을 벗어나면, db.CLose()실행, 이 경우는 main()함수 종료시
+  	dbName  :=  "testdb"  // 생성할 데이터베이스 이름
+  	// Raw SQL로 데이터베이스 생성
+  	db.Exec("CREATE DATABASE IF NOT EXISTS "  + dbName)
+  	db.Exec("commit;")
+  }
+  ```
+
+  -> MySQL의 쿼리 로그로 결과 확인
+
+  ![image-20210113004510818](/Users/sunhapark/project/GoStudy/note/images/image-20210113004510818.png)
+
+### CRUD
+
+* 테이블 생성 및 레코드 CRUD 연산 수행
+
+  ```go
+  type Student struct {
+  	gorm.Model
+  	Id string
+  	Name string
+  	Age int
+  }
+  
+  func  main() {
+  	db, err  := gorm.Open("mysql", "testuser:testpass@tcp(127.0.0.1:3306)/")
+  	if err != nil {
+  		panic("failed to connect DB")
+  	}
+  	defer db.Close()
+  	
+  	// 스키마를 마이그레이트(테이블 생성)
+  	db.AutoMigrate(&Student{})
+  	
+  	db.Create(&Student{Id: "id001", Name: "Harry", Age: 20})
+  
+  	// Read : 읽기
+  	var student Student
+  	db.First(&student, 1)	// id가 1인 student 찾기
+  	db.First(&student, "name = ?", "Harry") // name이 Harry인 학생 찾기
+  	
+  	// Update : 수정
+  	db.Model(&student).Update("Age", 21)
+  	
+  	// Delete : 삭제
+  	db.Delete(&student)
+  }
+  ```
+
+  -> 실행 결과 로그
+
+  ![image-20210113010113076](/Users/sunhapark/project/GoStudy/note/images/image-20210113010113076.png)
 
 ### Select
 
