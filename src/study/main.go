@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
-	"study/part"
+
+	"./gorm"
+	"./part"
 )
 
 func main() {
@@ -73,4 +75,8 @@ func main() {
 
 	fmt.Println("\n== go channels ==")
 	part.GoChannels()
+
+	fmt.Println("\n\n********** GORM **********")
+	fmt.Println("== connect MySQL() ==")
+	gorm.ConnMySQL()
 }

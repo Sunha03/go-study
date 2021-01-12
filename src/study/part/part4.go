@@ -3,7 +3,8 @@ package part
 import (
 	"fmt"
 	"math"
-	"study/testlib"
+
+	"../testlib"
 	//_ "study/testlib" // 패키지의 init()만 호출
 )
 

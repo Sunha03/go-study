@@ -1,4 +1,4 @@
-# Go Programming(gORM)
+# Go Programming(GORM)
 
 ## * Mac MariaDB 설치
 
@@ -64,17 +64,7 @@
 
   -> 패스워드 변경
 
-## gORM
-
-* ORM(Object Relational Mapping, 객체-관계 매핑)
-
-   : 객체와 관계형 DB의 데이터를 자동으로 매핑(연결)해주는 것
-
-  - 객체 지향 프로그래밍은 클래스를 사용하고, 관계형 DB는 테이블을 사용함
-  - 객체 모델과 관계형 모델 간에 불일치가 존재함
-  - ORM을 통해 깩체 간의 관계를 바탕으로 SQL을 자동으로 생성하여 불일치를 해결함
-
-* gORM : go언어에서 사용 가능한 ORM(Object Relation Mapping) 라이브러리([*http://gorm.io)*](http://gorm.io/)
+## MariaDB 설정 및 GORM 설치
 
 ### 0. 전제조건
 
@@ -102,7 +92,7 @@
 
     ![image-20210112191424782](/Users/sunhapark/project/GoStudy/note/images/image-20210112191424782.png)
 
-### 2. gORM 설치
+### 2. GORM 설치
 
 * gORM 설치
 
@@ -118,7 +108,7 @@
 
   ** 참고로, 다운로드한 패키지가 실행파일(유틸리티, 도구)인 경우에는 실행파일을 만들어 이를 GOPATH/bin 이하에 생성/저장
 
-### 3. gORM용 MySQL 드라이버 설치
+### 3. GORM용 MySQL 드라이버 설치
 
 * mysql, postgresql 등 DB별로 별도 설치가 필요함
 
@@ -145,4 +135,116 @@
 
 
 
+## GORM
+
+* ORM(Object Relational Mapping, 객체-관계 매핑)
+
+   : 객체와 관계형 DB의 데이터를 자동으로 매핑(연결)해주는 것
+
+  - 객체 지향 프로그래밍은 클래스를 사용하고, 관계형 DB는 테이블을 사용함
+  - 객체 모델과 관계형 모델 간에 불일치가 존재함
+  - ORM을 통해 깩체 간의 관계를 바탕으로 SQL을 자동으로 생성하여 불일치를 해결함
+
+* gORM : go언어에서 사용 가능한 ORM(Object Relation Mapping) 라이브러리([*http://gorm.io)*](http://gorm.io/)
+
+### Package
+
+* 표준 패키지 database/sql을 사용함. database/sql 패키지는 관계형 DB들에게 공통적으로 사용되는 인터페이스들을 제공하고 있음
+
+* database/sql 패키지는 여러 종류의 SQL DB를 지원하는데, 각각의 DB Driver와 함께 사용됨
+
+  * MySQL : https://github.com/go-sql-driver/mysql
+  * MSSQL : https://github.com/denisenkom/go-mssqldb
+  * Oracle : https://github.com/rana/ora
+  * Postgress : https://gitjib.com/lib/pq
+  * SQLite : https://github.com/mattn/go-sqlite3
+  * DB2 : https://bitbucket.org/phiggins/db2cli
+
+  ```go
+  import (
+    _ "github.com/lib/pq"	// '_' : 드리이버를 사용하지 않음. 사용하진 않지만 연결을 위해 명시적으로 드라이버를 지정해야함. 아니면 에러 발생.
+  	"database/sql"
+  )
+  ```
+
+### Connect
+
+* sql.DB - database/sql 패키지에서 가장 중요한 Type. 일반적으로 sql.Open()을 사용하여 sql.DB 객체를 얻음
+
+* sql.Open(드라이버, Connection) : 어떤 DB를 사용할 것인지, 해당 DB 연결 정보를 제공하면, 결과로 sql.DB 객체를 얻음
+
+* sql.DB 객체 얻기 >  sql.DB의 여러 메소드를 사용하여 쿼리 > SQL문 실행
+
+* sql.Open()은 실제 DB Connection을 Open하지 않음. sql.DB는 드라이버 종류와 Connection 정보를 갖고 있지만, 실제 DB에 연결하지 않으며, 많은 경우 Connection 정보 조차 체크하지 않음. 실제 DB Connection은 Query 등과 같이 실제 DB 연결이 필요한 시점에 이루어짐
+
+  ```go
+  db, err := sql.Open(드라이버명, ₩host=db의ip port=db포트번호 user=접속할db유저 password=접속할db패스워드 dbname=접속할db명 sslmode=disable`)
+  
+  // sql.DB 객체 생성
+  db, err := sql.Open("mysql", `host=localhost port=3306 user=sunhapark password=XXXX dbname=mysql sslmode=disable`)
+  
+  // db 사용 후 close
+  defer db.Close()
+  
+  // error 출력
+  if err != nil || db.Ping() != nil {
+  	panic(err.Error())
+  }
+  ```
+
+### Select
+
+* 조회 함수 2개 - QueryRow(), Query()
+
+  * QueryRow() : 1개의 Row만 리턴 or 1개의 Row만 리턴이 될 것을 예상한 경우
+
+    -> Scan() : 1개의 Row에서 실제 데이터를 읽어 로컬 변수에 할당하기 위해 사용
+
+    ```go
+    var name string
+    err := db.QueryRow("SELECT name FROM test WHERE id = 10").Scan(&name)
+    if err != nil {
+    	panic(err.Error())
+    }
+    fmt.Println(name)
+    ```
+
+  * Query() : 복수 개의 Row를 리턴
+
+    -> Next() : 복수 Row에서 다음 Row로 이동하기 위해 사용
+
+    ```go
+    var id int
+    var name string
+    rows, err := db.Query("SELECT id, name FROM test1 where id >= $1", 1)
+    if err != nil {
+    	log.Fatal(err)
+    }
+    defer rows.Close()
+    
+    for rows.Next() {
+    	err := rows.Scan(&id, &name)
+    	if err != nil {
+    		log.Fatal(err)
+    	}
+    	fmt.Println(id, name)
+    }
+    ```
+
+    -> Parameterized Query :  SQL Injection과 같은 문제를 방지하기 위해 파라미터를 문자열 결합이 아닌 별도의 파라미터로 대입시키는 방식
+
+    -> Placeholder $1에는 1이 대입됨
+
+    -> Placeholder는 DB 종류에 따라 다르게 사용됨.
+
+    ​	MySQL - ? / Oracle - :val1, :val2 / PostgreSQL - $1, $2
+
+
+
+
+
+
+
 [참고] [https://medium.com/@amoebamach/go%EC%96%B8%EC%96%B4%EC%97%90%EC%84%9C-orm-gorm-83ab33ecdc98]
+
+[참고] [https://brownbears.tistory.com/186]
