@@ -84,5 +84,8 @@ func main() {
 	//gorm.CreateDB()
 
 	fmt.Println("\n== CRUD ==")
-	gorm.CRUD()
+	//gorm.CRUD()
+
+	fmt.Println("\n== select ==")
+	gorm.Select()
 }

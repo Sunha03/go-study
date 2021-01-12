@@ -3,6 +3,7 @@ package gorm
 import (
 	"database/sql"
 	"fmt"
+	"log"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
@@ -64,4 +65,38 @@ func CRUD() {
 
 	// Delete : 삭제
 	//db.Delete(&student)
+}
+
+func Select() {
+	db, err := sql.Open("mysql", "sunhapark:root@tcp(127.0.0.1:3306)/students?charset=utf8&parseTime=True&loc=Local")
+	if err != nil {
+		panic("failed to connect DB")
+	}
+	defer db.Close()
+
+	// QueryRow() : 1개의 row만 리턴
+	var name string
+	errQR := db.QueryRow("SELECT name FROM students WHERE id = 2").Scan(&name)
+	if errQR != nil {
+		panic(errQR.Error())
+	}
+	fmt.Println(name)
+	//(Outputs) Harry
+
+	// Query() : 여러 개의 row 리턴
+	var id int
+	rows, err := db.Query("SELECT id, name FROM students where id >= ?", 1)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		err := rows.Scan(&id, &name)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(id, name)
+	}
+	//(Outputs) 1 Harry / 2 Harry / 3 Ron / 4 Hermione
 }

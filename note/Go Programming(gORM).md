@@ -269,10 +269,12 @@
     fmt.Println(name)
     ```
 
+    ![image-20210113013006260](/Users/sunhapark/project/GoStudy/note/images/image-20210113013006260.png)
+
   * Query() : 복수 개의 Row를 리턴
 
     -> Next() : 복수 Row에서 다음 Row로 이동하기 위해 사용
-
+  
     ```go
     var id int
     var name string
@@ -288,15 +290,17 @@
     		log.Fatal(err)
     	}
     	fmt.Println(id, name)
-    }
+  }
     ```
+
+    ![image-20210113013313684](/Users/sunhapark/project/GoStudy/note/images/image-20210113013313684.png)
 
     -> Parameterized Query :  SQL Injection과 같은 문제를 방지하기 위해 파라미터를 문자열 결합이 아닌 별도의 파라미터로 대입시키는 방식
 
     -> Placeholder $1에는 1이 대입됨
-
+  
     -> Placeholder는 DB 종류에 따라 다르게 사용됨.
-
+    
     ​	MySQL - ? / Oracle - :val1, :val2 / PostgreSQL - $1, $2
 
 
