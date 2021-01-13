@@ -90,5 +90,8 @@ func main() {
 	//gorm.Select()
 
 	fmt.Println("\n== insert ==")
-	gorm.Insert()
+	//gorm.Insert()
+
+	fmt.Println("\n== prepared statement ==")
+	gorm.PreparedStatement()
 }

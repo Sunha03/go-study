@@ -121,3 +121,30 @@ func Insert() {
 	}
 	//(Outputs) 1 row insered
 }
+
+func PreparedStatement() {
+	db, err := sql.Open("mysql", "sunhapark:root@tcp(127.0.0.1:3306)/students?charset=utf8&parseTime=True&loc=Local")
+	if err != nil {
+		panic("failed to connect DB")
+	}
+	defer db.Close()
+
+	// Prepared Statement 생성
+	stmt, err := db.Prepare("UPDATE students SET name=? WHERE age=?")
+	checkError(err)
+	defer stmt.Close()
+
+	// Prepared Statement 실행
+	_, err = stmt.Exec("Harry", 23) // Placeholder 파라미터 순서대로 전달
+	checkError(err)
+	_, err = stmt.Exec("Ron", 23)
+	checkError(err)
+	_, err = stmt.Exec("Harmione", 23)
+	checkError(err)
+}
+
+func checkError(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
