@@ -87,5 +87,8 @@ func main() {
 	//gorm.CRUD()
 
 	fmt.Println("\n== select ==")
-	gorm.Select()
+	//gorm.Select()
+
+	fmt.Println("\n== insert ==")
+	gorm.Insert()
 }

@@ -100,3 +100,24 @@ func Select() {
 	}
 	//(Outputs) 1 Harry / 2 Harry / 3 Ron / 4 Hermione
 }
+
+func Insert() {
+	db, err := sql.Open("mysql", "sunhapark:root@tcp(127.0.0.1:3306)/students?charset=utf8&parseTime=True&loc=Local")
+	if err != nil {
+		panic("failed to connect DB")
+	}
+	defer db.Close()
+
+	// INSERT문 실행
+	result, err := db.Exec("INSERT INTO students(name, age) VALUES (?, ?)", "Malfoy", 20)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// sql.Result.RowsAffected() 체크
+	n, err := result.RowsAffected()
+	if n == 1 {
+		fmt.Println("1 row insered")
+	}
+	//(Outputs) 1 row insered
+}
