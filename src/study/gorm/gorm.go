@@ -148,3 +148,27 @@ func checkError(err error) {
 		panic(err)
 	}
 }
+
+func Transaction() {
+	db, err := sql.Open("mysql", "sunhapark:root@tcp(127.0.0.1:3306)/students?charset=utf8&parseTime=True&loc=Local")
+	if err != nil {
+		panic("failed to connect DB")
+	}
+	defer db.Close()
+
+	// 트랜잭션 시작
+	tx, err := db.Begin()
+	checkError(err)
+	defer tx.Rollback() // 중간에 에러 발생 시 롤백
+
+	// INSERT 문 실행
+	_, err = db.Exec("INSERT INTO students(name, age) VALUES (?, ?)", "Jinny", 17)
+	checkError(err)
+
+	_, err = db.Exec("INSERT INTO students(name, age) VALUES (?, ?)", "Neville", 23)
+	checkError(err)
+
+	// 트랜잭션 커밋
+	err = tx.Commit()
+	checkError(err)
+}

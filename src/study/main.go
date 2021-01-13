@@ -93,5 +93,8 @@ func main() {
 	//gorm.Insert()
 
 	fmt.Println("\n== prepared statement ==")
-	gorm.PreparedStatement()
+	//gorm.PreparedStatement()
+
+	fmt.Println("\n== transaction ==")
+	gorm.Transaction()
 }
