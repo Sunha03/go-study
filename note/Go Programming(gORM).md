@@ -303,7 +303,89 @@
     
     ​	MySQL - ? / Oracle - :val1, :val2 / PostgreSQL - $1, $2
 
+### Insert, Delete, Update
 
+* db.Exec() : INSERT, DELETE, UPDATE와 같이 DML Operation을 사용하기 위한 함수
+
+* SELECT할 때, 리턴되는 데이터가 없는 경우에도 db.Exec() 사용함
+
+* db.Exec()는 sql.Result와 error 객체를 리턴하며, sql.Result 객체로부터 갱신된 레코드수(RowsAffected())와 새로 추가된 Id(LastInsertId())를 구할 수 있음
+
+  ```go
+  // INSERT문 실행
+  result, err := db.Exec("INSERT INTO test1 VALUES (?, ?)", 11, "Jack")
+  if err != nil {
+  	log.Fatal(err)
+  }
+  
+  // sql.Result.RowsAffected() 체크
+  n, err := result.RowsAffected()
+  if n == 1 {
+  	fmt.Println("1 row insered")
+  }
+  ```
+
+  ![image-20210114021933900](/Users/sunhapark/project/GoStudy/note/images/image-20210114021933900.png)
+
+### Prepared Statement
+
+* Prepared Statement : DB 서버에 Placeholder를 가진 SQL문을 미리 준비시키는 것으로, 차후 해당 Statement를 호출할 때 준비된 SQL문을 빠르게 실행하도록 하는 기법
+
+* db.Prepare() : Placeholder를 가진 SQL문을 미리 준비시키고, sql.Stmt 객체를 리턴
+
+* 나중에 이 sql.Stmt 객체의 Exec() / Query() / QueryRow()를 이용하여 준비된 SQL문을 실행함
+
+  ```go
+    // Prepared Statement 생성
+    stmt, err := db.Prepare("UPDATE test1 SET name=? WHERE id=?")
+    checkError(err)
+    defer stmt.Close()
+  
+    // Prepared Statement 실행
+    _, err = stmt.Exec("Tom", 1)	// Placeholder 파라미터 순서대로 전달
+    checkError(err)
+    _, err = stmt.Exec("Jack", 2)
+    checkError(err)
+    _, err = stmt.Exec("Shawn", 3)
+    checkError(err)
+  }
+  
+  func checkError(err error) {
+  	if(err != nil) {
+  		panic(err)
+  	}
+  }
+  ```
+
+  ![image-20210114021955610](/Users/sunhapark/project/GoStudy/note/images/image-20210114021955610.png)
+
+### 트랜잭션
+
+* 트랜잭션 - 복수 개의 SQL 문을 실행하다 중간에 어떤 한 SQL 문에서라도 에러가 발생하면 전체 SQL문을 취소하고(롤백), 모두 성공적으로 실행되어야 전체를 커밋하게 됨
+
+* db.Begin() : 복수 개의 SQL 문을 하나의 트랜잭션으로 묶음
+
+* sql.Tx 타입의 Begin()는 sql.Tx 객체를 리턴하는데, 마지막에 최종 Commit을 위해 Tx.Commit()을, 롤백을 위해 Tx.Rollback()를 호출함.
+
+  ```go
+  // 트랜잭션 시작
+  tx, err := db.Begin()
+  checkError(err)
+  defer tx.Rollback()		// 중간에 에러 발생 시 롤백
+  
+  // INSERT 문 실행
+  _, err = db.Exec("INSERT INTO test1 VALUES (?, ?)", 15, "Jack")
+  checkError(err)
+  
+  _, err = db.Exec("INSERT INTO test2 VALUES (?, ?)", 15, "Data")
+  checkError(err)
+  
+  // 트랜잭션 커밋
+  err = tx.Commit()
+  checkError(err)
+  ```
+
+  ![image-20210114023421041](/Users/sunhapark/project/GoStudy/note/images/image-20210114023421041.png)
 
 
 
