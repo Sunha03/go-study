@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 
-	"../testlib"
+	"study/testlib"
 	//_ "study/testlib" // 패키지의 init()만 호출
 )
 
