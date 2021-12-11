@@ -42,6 +42,36 @@ func Consts() {
 	//(Outputs) 10 Hi 20 Hello Visa Master Card American Express 0 1 2
 }
 
+func Pointers() {
+	// Pointer1
+	a := 2
+	b := a
+	// Pointer2
+	a2 := 2
+	b2 := a2
+	a2 = 10
+	// Pointer3
+	a3 := 2
+	b3 := &a3
+	a3 = 10
+	// Pointer4
+	a4 := 2
+	b4 := &a4
+	*b4 = 20
+
+	fmt.Println(a, b)
+	fmt.Println(a2, b2)
+	fmt.Println(a3, b3)
+	fmt.Println(a3, *b3)
+	fmt.Println(a4, b4)
+	// (Outputs)
+	// 2 2
+	// 10 2
+	// 10 0xc0000b4028
+	// 10 10
+	// 20 0xc0000b4030
+}
+
 func DataTypes() {
 	rawLiteral := `Hello\nHi` //Raw String Literal
 

@@ -15,6 +15,9 @@ func ExeGobasic() {
 	fmt.Println("\n== consts ==")
 	basic.Consts()
 
+	fmt.Println("\n== pointers ==")
+	basic.Pointers()
+
 	fmt.Println("\n== dataTypes ==")
 	basic.DataTypes()
 
