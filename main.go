@@ -1,18 +1,22 @@
 package main
 
 import (
-	"go-study/grpcserver"
-	"go-study/study"
-	"go-study/test"
+	// "go-study/grpcserver"
+	// "go-study/study"
+	// "go-study/test"
+	"go-study/user"
 )
 
 func main() {
 	// test
-	test.TestMain()
+	// test.TestMain()
 
 	// study
-	study.StudyMain()
+	// study.StudyMain()
 
 	// grpcserver
-	grpcserver.GrpcServerMain()
+	// grpcserver.GrpcServerMain()
+
+	// user server
+	user.UserMain()
 }
