@@ -4,6 +4,7 @@ import (
 	handler "go-study/user/handler"
 
 	"github.com/gorilla/mux"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 var r *mux.Router
@@ -12,6 +13,10 @@ func New() *mux.Router {
 	r = mux.NewRouter()
 
 	return r
+}
+
+func SwaggerHandler() {
+	r.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 }
 
 func UserHandler() {
